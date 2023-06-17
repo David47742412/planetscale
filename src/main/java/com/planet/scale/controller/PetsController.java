@@ -46,6 +46,16 @@ public class PetsController {
         }
     }
 
+    @GetMapping(path = "/get/report")
+    public @ResponseBody Object getReport() {
+        var ltsData =  _repository.getPetsReport();
+        Map<String, String> ltsMap = new HashMap<>();
+        for (var data: ltsData) {
+            ltsMap.put(data.getPropietario(), data.getNombre());
+        }
+        return ltsMap;
+    }
+
     @PostMapping(path = "/add")
     public ResponseEntity<Response<Pets>> insert(@RequestBody Pets pets) {
         var res = new Response<Pets>();
@@ -86,15 +96,4 @@ public class PetsController {
             return ResponseEntity.status(500).body(res);
         }
     }
-
-    @GetMapping(path = "/get/report")
-    public @ResponseBody Object getReport() {
-        var ltsData =  _repository.getPetsReport();
-        Map<String, String> ltsMap = new HashMap<>();
-        for (var data: ltsData) {
-            ltsMap.put(data.getPropietario(), data.getNombre());
-        }
-        return ltsMap;
-    }
-
 }
